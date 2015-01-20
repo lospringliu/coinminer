@@ -1,0 +1,9 @@
+<html>
+<body>
+	{% if worker %}
+	<h2>miner updated for ipaddress of {{ worker.ipaddress }}</h2>
+	{% else %}
+	<h2>did not find the worker</h2>
+	{% endif %}
+</body>
+</html>

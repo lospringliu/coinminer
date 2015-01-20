@@ -1,0 +1,139 @@
+{% extends "base_site.html" %}
+{% block title %}管理面板{% endblock %}
+{% block content %}
+	{% if user and user.is_active and user.is_staff %}
+		{% if user.userprofile.user_in_superuser_set or user.userprofile.user_in_banzhu_group %}
+		<div class="module">
+			<h1>管理面板</h1>
+			<div id="content">
+				<h1 style="color:red"><a href="/django/tutorial/" target="_new">操作向导</a></h1>
+				<p>可以通过这个简单的向导来了解如何管理这个系统</p>
+				<h1>下载账本</h1>
+				<b><a href="/django/gen_btc_result/" target="_new">比特币矿机采购结果</a></b><br>
+				<div>
+					<p> 此下载为文本格式,以制表键分割,可以用excel或者wps导入.第一列是QQ号码,格式应该设置为文本. 建议使用wps导入,存成excel格式,优点是可以按照付款人的姓名拼音排序.
+				</div>
+				<h1>显示结果</h1>
+				{% if show_ltc_result %}
+				<b><a href="/django/controlpanel/">隐藏莱特币矿机预订结果</a></b><br>
+				<div id="content">
+					<table>
+						<tr><th>QQ号码</th><th>姓名</th><th>QQ昵称</th><th>预订数量</th><th>注释</th></tr>
+						<tr style='background-color:cyan'><td>其中矿工群</td><td>{{ user.userprofile.get_queryset_scrypt_first_miner.count }}人参与</td><td>总额{{ user.userprofile.get_sum_scrypt_first_miner }} 台</td></tr>
+					{% for up in user.userprofile.get_queryset_scrypt_first_miner %}
+						<tr><td>{{ up.user.username }}</td><td>{% if up.fullname %}{{ up.fullname }}{% else %}&nbsp;{% endif %}</td><td>{{ up.qqdisplay }}</td><td>{{ up.scrypt_first }}</td><td>{% if up.note %}{{ up.note }}{% else %}&nbsp;&nbsp;{% endif %}</td></tr>
+					{% endfor %}
+						<tr style='background-color:cyan'><td>其中非矿工群</td><td>{{ user.userprofile.get_queryset_scrypt_first_excludeminer.count }}人参与</td><td>总额{{ user.userprofile.get_sum_scrypt_first_excludeminer }} 台</td></tr>
+					{% for up in user.userprofile.get_queryset_scrypt_first_excludeminer %}
+						<tr><td>{{ up.user.username }}</td><td>{% if up.fullname %}{{ up.fullname }}{% else %}&nbsp;{% endif %}</td><td>{{ up.qqdisplay }}</td><td>{{ up.scrypt_first }}</td><td>{% if up.note %}{{ up.note }}{% else %}&nbsp;&nbsp;{% endif %}</td></tr>
+					{% endfor %}
+					</table>
+				</div>
+				{% else %}
+				<b><a href="?show_ltc_result=True">显示莱特币矿机预订结果</a></b><br>
+				{% endif %}
+				{% if show_btcfirst_result %}
+				<b><a href="/django/controlpanel/">隐藏比特币矿机一期结果</a></b><br>
+				<div id="content">
+					<table>
+						<tr><th>QQ号码</th><th>姓名</th><th>QQ昵称</th><th>购买数量</th><th>用户确认</th><th>注释</th></tr>
+					{% for up in user.userprofile.get_queryset_sha256_first %}
+						<tr><td>{{ up.user.username }}</td><td>{% if up.fullname %}{{ up.fullname }}{% else %}&nbsp;{% endif %}</td><td>{{ up.qqdisplay }}</td><td>{{ up.sha256_first }}</td><td>{% if up.lock_sha256_first %}确认正确{% elif up.lock_sha256_first == False %}有出入{% else %}未确认{% endif %}</td><td>{% if up.note %}{{ up.note }}{% else %}&nbsp;&nbsp;{% endif %}</td></tr>
+					{% endfor %}
+					</table>
+				</div>
+				{% else %}
+				<b><a href="?show_btcfirst_result=True">显示比特币矿机一期结果</a></b><br>
+				{% endif %}
+				{% if show_btcsecond_result %}
+				<b><a href="/django/controlpanel/">隐藏比特币矿机二期结果</a></b><br>
+				<div id="content">
+					<table>
+						<tr><th>QQ号码</th><th>姓名</th><th>QQ昵称</th><th>购买数量</th><th>用户确认</th><th>注释</th></tr>
+					{% for up in user.userprofile.get_queryset_sha256_second %}
+						<tr><td>{{ up.user.username }}</td><td>{% if up.fullname %}{{ up.fullname }}{% else %}&nbsp;{% endif %}</td><td>{{ up.qqdisplay }}</td><td>{{ up.sha256_second }}</td><td>{% if up.lock_sha256_second %}确认正确{% elif up.lock_sha256_second == False %}有出入{% else %}未确认{% endif %}</td><td>{% if up.note %}{{ up.note }}{% else %}&nbsp;&nbsp;{% endif %}</td></tr>
+					{% endfor %}
+					</table>
+				</div>
+				{% else %}
+				<b><a href="?show_btcsecond_result=True">显示比特币二期矿机结果</a></b><br>
+				{% endif %}
+				{% if show_oversea_result %}
+				<b><a href="/django/controlpanel/">隐藏海外用户列表</a></b><br>
+				<div id="content">
+					<table>
+						<tr><th>QQ号码</th><th>姓名</th><th>QQ昵称</th><th>国家-&gt;省-&gt;城市</th></tr>
+					{% for up in user.userprofile.get_queryset_oversea %}
+						<tr><td>{{ up.user.username }}</td><td>{% if up.fullname %}{{ up.fullname }}{% else %}&nbsp;{% endif %}</td><td>{{ up.qqdisplay }}</td><td>{{ up.location }}</td></tr>
+					{% endfor %}
+					</table>
+				</div>
+				{% else %}
+				<b><a href="?show_oversea_result=True">显示海外用户列表</a></b><br>
+				{% endif %}
+			{% if user.userprofile.user_in_superuser_set %}
+			<h1><a href="?switch_superuser=True">你在超级用户列表中点击可以切换普通用户和超级用户状态。</a></h1>
+			<div id="content">
+				<p>删除用户, 将用户从某个组中去掉</p>
+				<p>指定/撤销管理员(添加/去除用户所属的 版主组)</p>
+				<p>现任管理员</p>
+				<ul>
+					{% for u in user.userprofile.get_banzhu_list %}
+						<li>{{ u.userprofile.qqdisplay }}</li>
+					{% endfor %}
+				</ul>
+			{% if user.is_superuser %}
+				<div id='content'>
+				<p><a href="/django/admin/auth/user/">管理用户</a></p>
+				<p><a href="/django/admin/auth/group/">管理组</a></p>
+				<p>远程访问</p>
+				<PRE>
+login: ssh -i xcliu-aws-priv-key.pem ec2-user@ec2-54-213-74-78.us-west-2.compute.amazonaws.com
+path: /export/app/skywell, best use cygwin terminal for UTF support 
+				</PRE>
+				</div>
+			{% endif %}
+			</div>
+			{% endif %}
+			<h1>你在管理员用户列表中可以执行管理任务。</h1>
+			<div id="content">
+				<p>处理各种待办事项<p>
+				<p>重置用户密码</p>
+				<p>添加用户, 同时加入指定的组,矿工组可以查看矿机运行报告</p>
+				<p>修改用户购买数据</p>
+				<p>确认用户采购</p>
+			</div>
+			{% if user.is_superuser or user.userprofile.user_in_banzhu_group %}
+				<div id="content">
+				<h3><a href="/django/admin/userprofiles/userprofile/" target='_new'>管理用户采购 -- 点击qq号可以更新购买数量；动作中可以确认采购,确认付款,重置密码,添加新用户等. (处理时应该使用搜索,可以查qq号码/姓名/网名/付款名/城市/省份)</a></h3>
+				<h3><a href="/django/admin/issues/todolist/?solved__exact=0">处理待办事项 -- 处理完一件后将它标记为完成 (处理时应该使用搜索,可以查qq号码/姓名/网名/)</a></h3>
+				</div>
+				<div>
+					<p>目前等候处理的待办事项包括 -- 待处理 {{ user.userprofile.get_total_todolist_unsolved.count }} , 已处理 {{ user.userprofile.get_total_todolist_solved.count }}</p>
+					<div id='content'>
+					<table>
+						<tr><th>类别</th><th>涉及用户</th><th>描述</th><th>数量</th><th>原因</th></tr>
+						{% for todolist in user.userprofile.todolist %}
+						<tr><td>{{ todolist.issuetype.name }}</td><td>{% if todolist.issuewith %}{{ todolist.issuewith.username }} ({{ todolist.issuewith.userprofile.qqdisplay }}){% else %}&nbsp;&nbsp;{% endif %}</td><td>{{ todolist.desc }}</td><td>{{ todolist.quantity }}</td><td>{{ todolist.note }}</td></tr>
+						{% endfor %}
+					</table>
+					</div>
+				</div>
+				<div>
+					<p><a href="/django/admin/issues/logrecord/" target='_new'>最新更新日志包括 -- 总共{{ user.userprofile.get_total_logactions.count }}</a></p>
+					<div id='content'>
+					<table>
+						<tr><th>时间</th><th>目标</th><th>修改者</th><th>比特一期</th><th>比特二期</th><th>莱特矿机</th><th>说明</th></tr>
+						{% for logrecord in user.userprofile.get_logrecords %}
+						<tr><td>{{ logrecord.timestamp }}</td><td>{{ logrecord.target.user.username}} ({{ logrecord.target.qqdisplay }})</td><td>{{ logrecord.updator.userprofile.qqdisplay }}</td><td>{{ logrecord.sha256_first }}</td><td>{{ logrecord.sha256_second }}</td><td>{{ logrecord.scrypt_first }}</td><td>{{ logrecord.note }}</td></tr>
+						{% endfor %}
+					</table>
+					</div>
+				</div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+		{% endif %}
+	{% endif %}
+{% endblock %}

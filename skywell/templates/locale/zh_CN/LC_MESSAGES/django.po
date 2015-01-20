@@ -1,0 +1,242 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-03 11:09-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: base_site.html:4
+msgid "Django site admin"
+msgstr "井天试验田"
+
+#: admin/base.html:28
+msgid "Welcome,"
+msgstr "欢迎"
+
+#: admin/base.html:33 registration/password_change_done.html:3
+#: registration/password_change_form.html:4
+msgid "Documentation"
+msgstr "文档"
+
+#: admin/base.html:36 registration/password_change_done.html:3
+#: registration/password_change_form.html:4
+msgid "Change password"
+msgstr "修改密码"
+
+#: admin/base.html:38 registration/password_change_done.html:3
+#: registration/password_change_form.html:4
+msgid "Log out"
+msgstr "注销"
+
+#: admin/base.html:48 registration/logged_out.html:4
+#: registration/password_change_done.html:6
+#: registration/password_change_form.html:7
+#: registration/password_reset_complete.html:6
+#: registration/password_reset_confirm.html:6
+#: registration/password_reset_done.html:6
+#: registration/password_reset_form.html:6
+msgid "Home"
+msgstr "主页面"
+
+#: registration/logged_out.html:8
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr ""
+
+#: registration/logged_out.html:10
+msgid "Log in again"
+msgstr "重新登录"
+
+#: registration/login.html:46 registration/password_reset_complete.html:19
+#, fuzzy
+msgid "Log in"
+msgstr "注销"
+
+#: registration/password_change_done.html:7
+#: registration/password_change_form.html:8
+#: registration/password_change_form.html:12
+#: registration/password_change_form.html:24
+msgid "Password change"
+msgstr "修改密码"
+
+#: registration/password_change_done.html:11
+#: registration/password_change_done.html:15
+msgid "Password change successful"
+msgstr "密码修改成功"
+
+#: registration/password_change_done.html:17
+msgid "Your password was changed."
+msgstr ""
+
+#: registration/password_change_form.html:20
+msgid "Please correct the error below."
+msgstr ""
+
+#: registration/password_change_form.html:20
+msgid "Please correct the errors below."
+msgstr ""
+
+#: registration/password_change_form.html:26
+#, fuzzy
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly. Do not use your "
+"QQ password"
+msgstr ""
+"请输入你的旧密码，为了安全起见，接着要输入两遍新密码，以便我们校验你输入的是"
+"否正确.切忌:不要使用QQ密码或者其他重要的密码"
+
+#: registration/password_change_form.html:32
+#, fuzzy
+msgid "Old password"
+msgstr "修改密码"
+
+#: registration/password_change_form.html:37
+#, fuzzy
+msgid "New password"
+msgstr "修改密码"
+
+#: registration/password_change_form.html:42
+msgid "Password (again)"
+msgstr "重新输入密码"
+
+#: registration/password_change_form.html:48
+#: registration/password_reset_confirm.html:26
+#, fuzzy
+msgid "Change my password"
+msgstr "修改密码"
+
+#: registration/password_reset_complete.html:7
+#: registration/password_reset_confirm.html:11
+#: registration/password_reset_done.html:7
+#: registration/password_reset_form.html:7
+#: registration/password_reset_form.html:11
+#: registration/password_reset_form.html:15
+msgid "Password reset"
+msgstr "重设密码"
+
+#: registration/password_reset_complete.html:11
+#: registration/password_reset_complete.html:15
+msgid "Password reset complete"
+msgstr ""
+
+#: registration/password_reset_complete.html:17
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+#: registration/password_reset_confirm.html:7
+msgid "Password reset confirmation"
+msgstr ""
+
+#: registration/password_reset_confirm.html:17
+#, fuzzy
+msgid "Enter new password"
+msgstr "修改密码"
+
+#: registration/password_reset_confirm.html:19
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+
+#: registration/password_reset_confirm.html:23
+#, fuzzy
+msgid "New password:"
+msgstr "修改密码"
+
+#: registration/password_reset_confirm.html:25
+#, fuzzy
+msgid "Confirm password:"
+msgstr "修改密码"
+
+#: registration/password_reset_confirm.html:31
+msgid "Password reset unsuccessful"
+msgstr ""
+
+#: registration/password_reset_confirm.html:33
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: registration/password_reset_done.html:11
+#: registration/password_reset_done.html:15
+msgid "Password reset successful"
+msgstr ""
+
+#: registration/password_reset_done.html:17
+msgid ""
+"We've emailed you instructions for setting your password. You should be "
+"receiving them shortly."
+msgstr ""
+
+#: registration/password_reset_done.html:19
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: registration/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: registration/password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr ""
+
+#: registration/password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: registration/password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: registration/password_reset_form.html:17
+msgid ""
+"Forgotten your password? Enter your email address below, and we'll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: registration/password_reset_form.html:21
+msgid "Email address:"
+msgstr ""
+
+#: registration/password_reset_form.html:21
+#, fuzzy
+msgid "Reset my password"
+msgstr "修改密码"
+
+#~ msgid "Username:"
+#~ msgstr "用户名"
+
+#~ msgid "Password:"
+#~ msgstr "密码"
+
+#~ msgid "skywell user info"
+#~ msgstr "井天试验田"
+
+#~ msgid "skywell user activities"
+#~ msgstr "井天用户活动"
+
+#~ msgid "Django administration"
+#~ msgstr "井天琐屑事务"

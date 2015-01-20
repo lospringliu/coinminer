@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie ie7" lang="en-US">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie ie8" lang="en-US">
+<![endif]-->
+<!--[if !(IE 7) | !(IE 8)  ]><!-->
+<html lang="en-US">
+<!--<![endif]-->
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JT Miner | JT Miner</title>
+	<link rel='stylesheet' id='bootstrap-css'  href='http://www.jtminer.com/wp-content/themes/openstrap/css/style2/bootstrap.css?ver=3.8.2' type='text/css' media='all' />
+	<link rel='stylesheet' id='bootstrap-custom-css'  href='http://www.jtminer.com/wp-content/themes/openstrap/css/style2/custom.css?ver=3.8.2' type='text/css' media='all' />
+	<link rel='stylesheet' id='openstrap-style-css'  href='http://www.jtminer.com/wp-content/themes/openstrap/style.css?ver=3.8.2' type='text/css' media='all' />
+	
+	<!-- Jigoshop Version: 1.8.1 -->
+	
+	<style type="text/css">
+		.site-title a,
+		.site-description {
+			color: #2034a3 !important;
+		}
+	</style>
+	<style type="text/css" id="custom-background-css">
+		body.custom-background { background-color: #e6e6e6; }
+	</style>
+	<style type="text/css" media="all"> 
+		body.openstrap-custom-background { background: #eeeeee;}
+		.site-header .header-body { background: #ffffff;} 
+	</style>	
+	<style type="text/css" media="all"> #bodychild{width:90%;}</style>
+</head>
+
+<body class="home page page-template-default custom-background single-author openstrap-custom-background">
+<div id="bodychild">
+	<!-- Wrap all page content here -->  
+	<div id="wrap">	
+		<header class="site-header" role="banner">
+			<div id="header-top">
+				<div class="container hidden-xs">
+					<div class="pull-left header-contact" id="header-top-container">
+													
+					</div>
+					<div class="pull-right"  id="header-top-container">
+						<div class="pull-right">
+						</div>
+					</div>
+				</div>			
+			</div>	
+			<div class="header-body">		
+				<div class="container">
+					 <div class="row logo-row">
+					  	<div class="col-md-4 pull-left">
+						<h1  class="site-title"><a href="http://www.jtminer.com"><img class="wp-image-28044" alt="PSD_20140219" src="http://www.jtminer.com/wp-content/uploads/2014/02/PSD_201402192.gif" width="30" height="50" /></a> <a href="http://www.jtminer.com/" title="JT Miner" rel="home">JT Miner</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.jtminer.com/cn/" title="井天矿机" rel="home">井天矿机</a></h1>
+						<small></small>
+					  	</div>	  
+					  	<div class="col-md-8 hidden-xs">
+							<div class="pull-right">
+							</div>
+					  	</div>
+					</div>
+				</div>	
+			</div>
+			<div>
+ 				{% with messages = get_flashed_messages() %}
+ 				{% if messages %}
+ 				<ul>
+ 				   {% for message in messages %}
+ 				       <li>{{ message }} </li>
+ 				   {% endfor %}
+ 				</ul>
+ 				{% endif %}
+ 				{% endwith %}
+			</div>
+		</header>
+	
+	    <!-- Fixed navbar -->
+	    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+	      <div class="container">
+	        <div class="navbar-header">
+	        </div>
+	        <div class="navbar-collapse">
+ 				{% block navigation %}
+					<table>
+					<td width=15%><a href="/en/systemsetup">System Setup</a></td>
+					<td width=15%><a href="/en/miningsetup">Mining Setup</a></td>
+					<td width=10%><a href="">Reporting</a></td>
+					<td width=10%><a href="/en/advanced">Advanced</a></td>
+					<td width=10%><a href="">中文</a></td></tr>
+					</table>
+				{% endblock %}
+	        </div><!--/.nav-collapse -->
+	      </div>
+	    </div>
+	    <div class="container" id="main-container">
+			<div class="row" id="main-row">
+			<!--blurb-->
+				<div class="col-md-12">
+					<div class="front-page-blurb">
+					  <div class="container text-center">
+ 						   {% block content %}{% endblock %}
+					  </div>
+					</div>
+				</div>
+			</div> <!-- #main-row-->
+		</div> <!-- .container #main-container-->
+	</div> <!-- #wrap -->
+
+<footer>
+		
+	<div id="footer">
+	  <div class="container footer-nav ">	
+		<div class="pull-left">
+			</div>	
+	
+		<div class="pull-right hidden-xs">
+		<p class="text-muted credit">JTminer.com © All rights reserved. </p>
+		</div> 	
+	  </div>
+	</div>
+</footer> 
+
+</div> <!-- #bodychild -->
+</body>
+</html>

@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-24 10:42-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: models.py:18 models.py:29 models.py:40 models.py:238 models.py:249
+#: models.py:261 models.py:274
+msgid "name"
+msgstr "名称"
+
+#: models.py:20 models.py:52
+msgid "resourcetype"
+msgstr "资源种类"
+
+#: models.py:21
+msgid "resourcetypes"
+msgstr "资源种类"
+
+#: models.py:31
+msgid "issuetype"
+msgstr "问题种类"
+
+#: models.py:32
+msgid "issuetypes"
+msgstr "问题种类"
+
+#: models.py:42 models.py:66
+msgid "cointype"
+msgstr "货币种类"
+
+#: models.py:43
+msgid "cointypes"
+msgstr "货币种类"
+
+#: models.py:51
+msgid "Resource Name"
+msgstr "资源名称"
+
+#: models.py:53
+msgid "provider"
+msgstr "提供者"
+
+#: models.py:54
+msgid "description"
+msgstr "描述"
+
+#: models.py:55
+msgid "link"
+msgstr "链结"
+
+#: models.py:57
+msgid "share resource"
+msgstr "共享资源"
+
+#: models.py:58
+msgid "share resources"
+msgstr "共享资源"
+
+#: models.py:64 models.py:185
+msgid "Miner Factory Name"
+msgstr "矿场"
+
+#: models.py:65
+msgid "blocks found"
+msgstr "挖到的块"
+
+#: models.py:67
+msgid "coins payed"
+msgstr "支付数量"
+
+#: models.py:68
+msgid "coins pending"
+msgstr "待支付数量"
+
+#: models.py:69
+msgid "hashrate in 128s"
+msgstr "128秒哈希速度"
+
+#: models.py:70
+msgid "hashrate in 256s"
+msgstr "256秒哈希速度"
+
+#: models.py:71 models.py:186
+msgid "hashrate in 22.5m"
+msgstr "22分钟半哈希速度"
+
+#: models.py:72
+msgid "Miner Factory Link"
+msgstr "矿场网址"
+
+#: models.py:75
+msgid "miner factory"
+msgstr "矿场"
+
+#: models.py:76
+msgid "miner factorys"
+msgstr "矿场"
+
+#: models.py:184
+msgid "Miner Worker Name"
+msgstr "矿工"
+
+#: models.py:187
+msgid "hashrate in 3h"
+msgstr "3小时哈希速度"
+
+#: models.py:188
+msgid "hashrate in 12h"
+msgstr "12小时哈希速度"
+
+#: models.py:190
+msgid "miner worker"
+msgstr "矿工"
+
+#: models.py:191
+msgid "miner workers"
+msgstr "矿工"
+
+#: models.py:226
+msgid "transfer content"
+msgstr "转让物"
+
+#: models.py:227
+msgid "transfer display name"
+msgstr "转让物名称"
+
+#: models.py:229
+msgid "transfercontent"
+msgstr "转让物品"
+
+#: models.py:230
+msgid "transfercontents"
+msgstr "转让物品"
+
+#: models.py:240
+msgid "subscription"
+msgstr "订阅级别"
+
+#: models.py:241
+msgid "subscriptions"
+msgstr "订阅级别"
+
+#: models.py:250 models.py:263 models.py:277
+msgid "creator"
+msgstr "创建者"
+
+#: models.py:252 models.py:262
+msgid "country"
+msgstr "国家"
+
+#: models.py:253
+msgid "countrys"
+msgstr "国家"
+
+#: models.py:265 models.py:275
+msgid "province"
+msgstr "省份"
+
+#: models.py:266
+msgid "provinces"
+msgstr "省份"
+
+#: models.py:276
+msgid "belong to"
+msgstr "属于"
+
+#: models.py:279
+msgid "location"
+msgstr "所在城市"
+
+#: models.py:280
+msgid "locations"
+msgstr "所在城市"

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+rm -f /etc/cron.daily/reportip

@@ -1,0 +1,13 @@
+[24/Jun/2014 21:24:21] "GET / HTTP/1.1" 200 147197
+[24/Jun/2014 21:24:38] "GET /admin/common/jintianworker/ HTTP/1.1" 200 2670
+[24/Jun/2014 21:24:58] "POST /admin/common/jintianworker/ HTTP/1.1" 302 0
+[24/Jun/2014 21:25:19] "POST /admin/common/jintianworker/ HTTP/1.1" 403 2294
+[24/Jun/2014 21:25:21] "GET /admin/common/jintianworker/ HTTP/1.1" 200 28900
+[24/Jun/2014 21:25:40] "GET /admin/common/jintianworker/ HTTP/1.1" 200 28900
+[24/Jun/2014 21:25:43] "GET /admin/jsi18n/ HTTP/1.1" 200 6538
+[24/Jun/2014 21:26:32] "GET / HTTP/1.1" 200 147510
+[24/Jun/2014 21:27:49] "GET /reportback/?ipaddress=192.168.0.20&macaddress=b8:27:eb:6d:e2:70 HTTP/1.1" 200 39
+[24/Jun/2014 21:30:22] "GET /reportback/?ipaddress=192.168.0.20 HTTP/1.1" 200 39
+[24/Jun/2014 21:30:45] "GET /reportback/?ipaddress=192.168.10.20 HTTP/1.1" 200 39
+[24/Jun/2014 21:31:19] "GET /reportback/?ipaddress=192.168.10.20&macaddress=b8:27:eb:6d:e2:70 HTTP/1.1" 200 39
+[24/Jun/2014 21:32:21] "GET /reportback/?ipaddress=192.168.0.20&macaddress=b8:27:eb:6d:e2:70 HTTP/1.1" 200 39

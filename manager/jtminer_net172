@@ -1,0 +1,38 @@
+#!/bin/bash
+
+declare -i ip_in_dec_third
+declare -i ip_in_dec_forth
+
+if /sbin/ifconfig eth0:172 | grep -qi 172.30
+then
+	exit
+fi
+if uname -a | grep -qi linux
+then
+	if [ -f /etc/os-release ]
+	then
+		if cat /etc/os-release | egrep -qi Raspbian
+		then
+			macinfoline=`/sbin/ifconfig eth0 | egrep "HWaddr" | head -1`
+			macaddress=`echo $macinfoline | awk '{print $NF}'`
+			ip_in_hex_forth=`echo $macaddress | cut -d: -f 6`
+			ip_in_hex_third=`echo $macaddress | cut -d: -f 5`
+			if echo $ip_in_hex_forth | egrep -qi "^[0-9a-f][0-9a-f]$"
+			then
+				ip_in_dec_forth=`printf "%d" 0x$ip_in_hex_forth`
+				if echo $ip_in_hex_forth | egrep -qi "^[0-9a-f][0-9a-f]$"
+				then
+					ip_in_dec_third=`printf "%d" 0x$ip_in_hex_third`
+					sudo /sbin/ifconfig eth0 up
+					sudo /sbin/ifconfig eth0:172 172.30.${ip_in_dec_third}.${ip_in_dec_forth} up
+				fi
+			fi
+		else
+			echo -e "\t...non-rasperrypi not handled" > /dev/null
+		fi
+	else
+		echo "non-rasperrypi linux not handled" > /dev/null
+	fi
+else
+	echo "non-linux OS not handled"
+fi

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+declare -i ip_in_dec
+
+if /sbin/ifconfig eth0:168 | grep -qi 192.168.168
+then
+	exit
+fi
+if uname -a | grep -qi linux
+then
+	if [ -f /etc/os-release ]
+	then
+		if cat /etc/os-release | egrep -qi Raspbian
+		then
+			macinfoline=`/sbin/ifconfig eth0 | egrep "HWaddr" | head -1`
+			macaddress=`echo $macinfoline | awk '{print $NF}'`
+			ip_in_hex=`echo $macaddress | cut -d: -f 6`
+			if echo $ip_in_hex | egrep -qi "^[0-9a-f][0-9a-f]$"
+			then
+				ip_in_dec=`printf "%d" 0x$ip_in_hex`
+				if [ $ip_in_dec -eq 0 -o $ip_in_dec -eq 255 ]
+				then
+					ip_in_dec=168
+				fi
+				sudo /sbin/ifconfig eth0 up
+				sudo /sbin/ifconfig eth0:168 192.168.168.${ip_in_dec} up
+			fi
+		else
+			echo -e "\t...non-rasperrypi not handled" > /dev/null
+		fi
+	else
+		echo "non-rasperrypi linux not handled" > /dev/null
+	fi
+else
+	echo "non-linux OS not handled"
+fi

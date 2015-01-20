@@ -1,0 +1,31 @@
+{% extends "base_site.html" %}
+{% block title %}A股基金投资意向{% endblock %}
+{% block branding %}
+	<h1>A股基金投资意向</h1>
+{% endblock %}
+{% block content %}
+	{% if not loggedin %}
+		请首先用鼠标点击<br> <a href="/django/accounts/login/?next=/django/afundinvest/"><b style="color:red">&nbsp;&nbsp;登陆矿工之家</b></a> <br>用户名是群中的QQ号，以前没有用过矿工之家的可以试试初始密码 0.0T+0.0T, 你总是可以用你的QQ邮箱<a href="/django/accounts/password_reset/?next=/django/afuncinvest/">重设密码</a>。
+	{% elif not user.userprofile.user_in_astockfund_group %}
+		<b>你没有权限访问该页面</b>
+	{% else %}
+		<div class="module">
+			<h1>后A股投资统计</h1>
+			<div id="content">
+				<table>
+					<thead><tr><th>编号</th><th>QQ 昵称</th><th>姓名</th><th>A股数量</th><th>拟转高科(万)</th><th>拟转虚拟(万)</th><th>拟转井通(万)</th><th>拟转总计(万元)</th><th>返款</th><th>井通补偿(元)</th><th>实转井通(元)</th><th>实转高科(元)</th><th>实转虚拟币(元)</th></tr></thead>
+					<tr style="font-weight:bold"><td>汇总</td><td></td><td></td><td> {{ astockfund }} </td><td>{{ hitechfund }}</td><td>{{ coinfund }}</td><td>{{ wellcoin }}</td><td>{{ wellcoin|add:coinfund|add:hitechfund}}</td><td>{{ astockvalue }}</td><td>{{ astockcredit }}</td><td>{{ wellcoinact }}</td><td>{{ hitechfundact }}</td><td>{{ coinfundact }}</td></tr>
+					{% for up in user.userprofile.get_queryset_astockfund %}
+					<tr><td>{{ forloop.counter }}</td><td>{{ up.user.username }}:&nbsp;{{ up.qqdisplay }}</td><td>{{ up.fullname }}</td><td>{{ up.astockfund }}</td><td>{{ up.hitechfund }}</td><td>{{ up.coinfund }}</td><td>{{ up.wellcoin }}</td><td style="font-weight:bold">{{  up.hitechfund|add:up.coinfund|add:up.wellcoin }}</td><td>{{ up.astockvalue }}</td><td>{{ up.astockcredit }}</td><td>{{ up.wellcoinact }}</td><td>{{ up.hitechfundact }}</td><td>{{ up.coinfundact }}</td></tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		<div class="module">
+			<h1>站点用途</h1>
+			<div id="content">
+				<p>此页面只开放给A股基金群用户</p>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

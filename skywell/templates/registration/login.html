@@ -1,0 +1,54 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="/static/admin/css/login.css" />{% endblock %}
+{% block bodyclass %}bodyclass{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block content %}
+{% if error_message %}
+<p class="errornote">{{ error_message }}</p>
+{% endif %}
+<div id="content-main">
+<h3> 欢迎你，群用户和矿工！</h3>
+<div id="content">
+<h4>认证登录</h4>
+<ul align="left">
+<li>首次登录后会要求重新设置你的密码，不要使用QQ的密码以免丢失</li>
+<li><b>出于安全原因，这里不设置用户名和密码提示，如果需要请到群内咨询</b><br></li>
+<li>忘记了用户名密码?可以<a href="/django/accounts/password_reset/">重新设置</a>. 输入你的QQ号码及@qq.com后缀,比如1234567@qq.com.<br> 察看你的QQ邮箱,这封邮件可能会在垃圾箱中<br></li>
+<li>你也可以试一试用你的<a href="/django/socialhome/">社交帐号-Google(可用)或者QQ帐号(试用中)登陆</a></li>
+</ul>
+<!--
+<li>目前正在申请QQ登录服务,因为此服务不会透露QQ号码,申请完成后还要考虑如何和现有帐号对接;先不使用</li></ul>
+<h4>Usage</h4>
+<ul>
+<li>manage your virtual machines</li>
+<li>manage your physical machines</li>
+</ul>
+-->
+</div>
+<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+  <div class="form-row">
+    <label for="id_username">用户名:</label> <input type="text" name="username" id="id_username" />
+  </div>
+  <div class="form-row">
+    <label for="id_password">密&nbsp;&nbsp;&nbsp;码: </label> <input type="password" name="password" id="id_password" />
+    <input type="hidden" name="this_is_the_login_form" value="1" />
+    <label>&nbsp;</label><input type="submit" value="登录" />
+  </div>
+  <div>
+	<a href="{% url 'social:begin' 'qq' %}?next={{ request.path }}"><img src="/Connect_logo_3.png" /></a><br>
+   </div>
+  <!--
+	<a href="{% url 'social:begin' 'qq' %}?next={{ request.path }}"><img src="/Connect_logo_3.png" /></a>&nbsp;&nbsp;测试中<br>
+	<a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a> &nbsp;&nbsp;测试
+   -->
+</form>
+
+<script type="text/javascript">
+document.getElementById('id_username').focus()
+</script>
+</div>
+{% endblock %}

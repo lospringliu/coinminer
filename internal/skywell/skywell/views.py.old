@@ -1,0 +1,215 @@
+# -*- coding: utf-8 -*-
+from django.shortcuts import render_to_response, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.template import loader, RequestContext
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User, Group
+from userprofiles.models import *
+from common.functions import *
+from common.models import *
+from reports.models import *
+from django.forms import ModelForm, forms, ModelChoiceField
+from django.core.context_processors import csrf
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.exceptions import ValidationError
+from common.functions import superusers_set
+from django.contrib.auth.decorators import login_required
+import adminfunc
+
+
+class ConfirmBtcFirstForm(ModelForm):
+	class Meta:
+		model = UserProfile
+		fields = ('fullname','qqdisplay','lock_sha256_first')
+	def clean(self):
+		cleaned_data = super(ConfirmBtcFirstForm,self).clean()
+		if self.instance and ( not self.instance.fullname or not self.instance.qqdisplay ):
+			raise ValidationError('为了方便对帐,请留下姓名信息',code='required')
+		return cleaned_data
+
+class ConfirmBtcSecondForm(ModelForm):
+	class Meta:
+		model = UserProfile
+		fields = ('fullname','qqdisplay','lock_sha256_second')
+	def clean(self):
+		cleaned_data = super(ConfirmBtcSecondForm,self).clean()
+		if self.instance and ( not self.instance.fullname or not self.instance.qqdisplay ):
+			raise ValidationError('为了方便对帐,请留下姓名信息',code='required')
+		return cleaned_data
+
+class UserProfileForm(ModelForm):
+	class Meta:
+		model = UserProfile
+		fields = ('qqdisplay','scrypt_first')
+class CoinfundForm(ModelForm):
+	class Meta:
+		model = UserProfile
+		fields = ('qqdisplay','coinfund')
+#		fields = ('needippool','isfenable','licensed','workloc','memberof',)
+class UserForm(ModelForm):
+	class Meta:
+		model = User
+		fields = ('email',)
+class SelectUserForm(forms.Form):
+    user = ModelChoiceField(label="select user",queryset=User.objects.filter(is_active=True).order_by('username'),empty_label=None)
+
+class SelectPoolForm(forms.Form):
+    pool = ModelChoiceField(label="select pool",queryset=MinerFactory.objects.all(),empty_label=None)
+
+class SelectWorkerForm(forms.Form):
+    worker = ModelChoiceField(label="select worker",queryset=MinerWorker.objects.all(),empty_label=None)
+#	def clean(self):
+#		cleaned_data = super(UserForm,self).clean()
+#		if not cleaned_data.get('first_name') or not cleaned_data['last_name']:
+#		if self.instance and ( not self.instance.last_name or not self.instance.first_name ):
+#			raise ValidationError(_('please input your first_name and last name'),code='required')
+#			raise ValidationError('为了方便对帐,请留下姓名信息',code='required')
+#		return cleaned_data
+
+def home(request):
+	user = request.user
+	passwarn = False
+	show_intention = False
+	show_intention_coinfund = False
+	show_ltc_result = False
+	show_btcfirst_result = False
+	show_btcsecond_result = False
+	show_coinfund_result = False
+	confirm_btc_first = False
+	confirm_btc_second = False
+	switch_superuser = False
+	querysetcoinfund = UserProfile.objects.filter(coinfund__gt=0)
+	if user and user.is_anonymous():
+		return redirect("/django/accounts/login/")
+	if user and not user.is_anonymous() and user.check_password("0.0T+0.0T"):
+		messages.add_message(request, messages.WARNING, '请立刻修改你的密码,不要使用你的QQ密码!')
+		return redirect("/django/accounts/password_change/")
+	coinfundform = CoinfundForm(instance=user.userprofile)
+	userform = None
+	userprofileform = None
+	confirmbtcfirstform = None
+	confirmbtcsecondform = None
+	if request.method == 'GET':
+		show_intention = request.GET.get('show_intention')
+		show_intention_coinfund = request.GET.get('show_intention_coinfund')
+		switch_superuser = request.GET.get('switch_superuser')
+		show_ltc_result = request.GET.get('show_ltc_result')
+		show_btcfirst_result = request.GET.get('show_btcfirst_result')
+		show_btcsecond_result = request.GET.get('show_btcsecond_result')
+		show_coinfund_result = request.GET.get('show_coinfund_result')
+		confirm_btc_first = request.GET.get('confirm_btc_first')
+		confirm_btc_second = request.GET.get('confirm_btc_second')
+		if switch_superuser and user.username in superusers_set:
+			if user.is_superuser:
+				user.is_superuser = False
+				user.save()
+			else:
+				user.is_superuser = True
+				user.save()
+		userform = UserForm(instance=user)
+		if show_intention:
+			userprofileform = UserProfileForm(instance=user.userprofile,prefix='ltcform')
+		if confirm_btc_first:
+			confirmbtcfirstform = ConfirmBtcFirstForm(instance=user.userprofile,prefix='btcfirst')
+		if confirm_btc_second:
+			confirmbtcsecondform = ConfirmBtcSecondForm(instance=user.userprofile,prefix='btcsecond')
+	if request.method == 'POST':
+		userform = UserForm(request.POST)
+		if userform.is_valid():
+			confirmbtcfirstform = ConfirmBtcFirstForm(request.POST,prefix='btcfirst')
+			if confirmbtcfirstform.is_valid():
+				userform.save()
+				confirmbtcfirstform.save()
+			else:
+				confirmbtcfirstform = ConfirmBtcFirstForm(instance=user.userprofile,prefix='btcfirst')
+			confirmbtcsecondform = ConfirmBtcSecondForm(request.POST,prefix='btcsecond')
+			if confirmbtcsecondform.is_valid():
+				userform.save()
+				confirmbtcsecondform.save()
+			else:
+				confirmbtcsecondform = ConfirmBtcSecondForm(instance=user.userprofile,prefix='btcsecond')
+			userprofileform = UserProfileForm(request.POST,instance=user.userprofile,prefix='ltcform')
+			if userprofileform.is_valid():
+				userform.save()
+				userprofileform.save()
+				userprofile = user.userprofile
+				userprofile.confirmed = True
+				userprofile.save()
+			else:
+				userprofileform = UserProfileForm(instance=user.userprofile,prefix='ltcform')
+
+	return render_to_response("home.html", {"user": user, "show_intention":show_intention,"userform":userform, "userprofileform":userprofileform,"superusers_set":superusers_set,"switch_superuser":switch_superuser,"show_ltc_result":show_ltc_result,"show_btcfirst_result":show_btcfirst_result,"confirm_btc_first":confirm_btc_first,"confirm_btc_second":confirm_btc_second,"show_btcsecond_result":show_btcsecond_result,"confirmbtcfirstform":confirmbtcfirstform,"confirmbtcsecondform":confirmbtcsecondform,"groupminer":Group.objects.get(id='3')},context_instance=RequestContext(request))
+
+@login_required()
+def reporting(request,rformat=None):
+	return render_to_response("reports.html", {"user":request.user,},context_instance=RequestContext(request))
+
+@login_required()
+def charts(request):
+	from django.contrib.contenttypes.models import ContentType
+	modelname = ""
+	instancename = ""
+	jqplots = []
+	requestuser = request.user
+	ct = None
+	mmodel = None
+	autocharts = None
+	modelform = None
+	if request.method == 'GET':
+		modelname=request.GET.get('model')
+		instancename=request.GET.get('name')
+	elif request.method == 'POST':
+		poolform = SelectPoolForm(request.POST)
+		workerform = SelectWorkerForm(request.POST)
+		userform = SelectUserForm(request.POST)
+		if poolform.is_valid():
+			modelname = 'MinerFactory'
+			pool = poolform.cleaned_data['pool']
+			jqplots = pool.gen_charts()
+			modelform = SelectPoolForm()
+		elif workerform.is_valid():
+			modelname = 'MinerFactory'
+			worker = workerform.cleaned_data['worker']
+			jqplots = worker.gen_charts()
+			modelform = SelectWorkerForm()
+		elif userform.is_valid():
+			modelname = 'User'
+			tuser = userform.cleaned_data['user']
+			if tuser.userprofile:
+				jqplots = tuser.userprofile.gen_charts()
+			modelform = SelectUserForm()
+		else:
+			pass
+		try:
+			ct = ContentType.objects.get(model=modelname)
+			mmodel = ct.model_class()
+		except ContentType.DoesNotExist:
+			pass
+		return render_to_response("charts.html", {"user":requestuser, "model": mmodel, 'contenttype': ct, 'jqplots': jqplots, 'modelform': modelform, }, context_instance=RequestContext(request))
+	try:
+		ct = ContentType.objects.get(model=modelname)
+		mmodel = ct.model_class()
+		if mmodel == MinerFactory:
+			modelform = SelectPoolForm()
+			jqplots = requestuser.userprofile.gen_pool_charts()
+		elif mmodel == MinerWorker:
+			modelform = SelectWorkerForm()
+			jqplots = requestuser.userprofile.gen_bad_workers_charts()
+		elif mmodel == User:
+			modelform = SelectUserForm()
+			jqplots = requestuser.userprofile.gen_user_charts()
+	except ContentType.DoesNotExist:
+		pass
+	if modelname == 'MinerWorker':
+		if instancename:
+			instance = MinerWorker.objects.get(name=instancename)
+			jqplots = instance.gen_charts()
+	if modelname == 'MinerFactory':
+		if instancename:
+			instance = MinerFactory.objects.get(name=instancename)
+			jqplots = instance.gen_charts()
+	if not requestuser.is_anonymous() and requestuser.userprofile:
+		return render_to_response("charts.html", {"user":requestuser, "model": mmodel, 'contenttype': ct, 'jqplots': jqplots, 'modelform': modelform, }, context_instance=RequestContext(request))
+	else:
+		return HttpResponseRedirect("/django/charts/")

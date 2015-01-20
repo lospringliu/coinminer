@@ -1,0 +1,99 @@
+{% extends "base_site.html" %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+{% endblock %}  
+
+{% block extrahead %}
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/static/admin/js/jqplot/excanvas.js"></script><![endif]-->
+{% endblock %}
+
+{% block title %}运行报告{% endblock %}
+{% block content %}
+		<div class="module">
+			<div id="content">
+			<table>
+			  <tr><th>我方数据(更新中)</th></tr><tr><td>
+				<table>
+					<tr><td>自统计目前总WU</td><td>{{ uuser.userprofile.sum_jtworker_wu }} (除去-1的，大于1000的除以32，相加)</td></tr>
+					<tr><td>自统计目前总算力</td><td>{{ uuser.userprofile.sum_jtworker_hash }} Th/s</td></tr>
+					<tr><td>自统计目前有效算力</td><td>{{ uuser.userprofile.sum_jtworker_wuhr }} Th/s</td></tr>
+				</table>
+			  </td></tr>
+			</table>
+			</div>
+			<h3>矿机 汇总 和 貌似有问题的矿机</h3>
+			<div id="content">
+			<table>
+			  	<tr><th>我方数据(更新中)</th></tr>
+				<tr><td>
+						<table>
+							<tr><td>矿机入数据库共</td><td>{{ uuser.userprofile.get_total_jtworkers.count }} 台:</td><td>其中斗士<b style="color:green">{{ uuser.userprofile.get_total_jtworkers_fighting.count }}</b>台</td><td>伤员<b style="color:orange">{{ uuser.userprofile.get_total_jtworkers_injured.count }}</b>台</td><td>逃兵<b style='color:red'>{{ uuser.userprofile.get_total_jtworkers_dead.count }}</b>台</td></tr>
+							<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#pool180">内蒙矿场</a>共</td><td>{{ uuser.userprofile.get_total_jtworkers_180.count }} 台:</td><td>其中斗士<b style="color:green">{{ uuser.userprofile.get_total_jtworkers_fighting_180.count }}</b>台</td><td>伤员<b style="color:orange">{{ uuser.userprofile.get_total_jtworkers_injured_180.count }}</b>台</td><td>逃兵<b style="color:red">{{ uuser.userprofile.get_total_jtworkers_dead_180.count }}</b>台</td></tr>
+							<tr><td><a href="/admin/common/jintianworker/" target="_new">察看详情,管理维护用</a></td><td></td><td></td></tr>
+						</table>
+					</td>
+				</tr>
+				<tr><td>
+						<table><a name="pool180"></a>
+							<tr><th>矿机(点击详情)</th><th>WorkUtil</th><th>算力</th><th>板0</th><th>板1</th><th>板2</th><th>板3</th><th>板4</th><th>tempCut</th><th>钱包</th><th>管理地址</th><th>MAC地址</th></tr>
+							{% for worker in uuser.userprofile.get_total_jtworkers_180 %}
+							<tr><td><a href="{% url 'skywell.views.trjtminer' %}?minerid={{ worker.id }}" target="_new">{{ worker.ipaddress }}</a></td>
+							{% if worker.wu == -1 %}
+								<td style="background-color:gray">{{ worker.wu }}</td>
+							{% else %}
+								<td>{{ worker.wu }}</td>
+							{% endif %}
+							{% if worker.hr_5 == 0 %}
+								<td style="background-color:gray">{{ worker.hr_5 }}</td>
+							{% else %}
+								<td>{{ worker.hr_5 }}</td>
+							{% endif %}
+							<td>
+							{% if worker.asc0 %}
+								<font style="color:green">OK</font>
+							{% else %}
+								<font style="color:red">XX</font>
+							{% endif %}</td><td>
+							{% if worker.asc1 %}
+								<font style="color:green">OK</font>
+							{% else %}
+								<font style="color:red">XX</font>
+							{% endif %}</td><td>
+							{% if worker.asc2 %}
+								<font style="color:green">OK</font>
+							{% else %}
+								<font style="color:red">XX</font>
+							{% endif %}</td><td>
+							{% if worker.asc3 %}
+								<font style="color:green">OK</font>
+							{% else %}
+								<font style="color:red">XX</font>
+							{% endif %}</td><td>
+							{% if worker.asc4 %}
+								<font style="color:green">OK</font>
+							{% else %}
+								<font style="color:red">XX</font>
+							{% endif %}</td>
+							{% if worker.tempcut > 65 %}
+							<td style="background-color:red">
+								最热 &nbsp; {{ worker.tempcut }}
+							{% else %}
+							<td>
+							{% endif %}
+							</td>
+							<td>{{ worker.wallet }}</td>
+							<td>{{ worker.mmaddress }}</td>
+							<td>
+							{% if worker.macaddress %}
+								{{ worker.macaddress }} 
+							{% else %} 
+								&nbsp;
+							{% endif %}</td></tr>
+							{% endfor %}
+						</table>
+					</td>
+				</tr>
+			</table>
+			</div>
+		</div>
+{% endblock %}

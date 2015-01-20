@@ -1,0 +1,137 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-25 17:18-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin.py:46
+msgid "qqnumber"
+msgstr "QQ号码"
+
+#: admin.py:46
+msgid "suggest to use the QQ number as username"
+msgstr "推荐使用QQ号码作为用户名"
+
+#: admin.py:47
+msgid "group belongs to"
+msgstr "所属组"
+
+#: admin.py:88
+msgid "Are you sure?"
+msgstr "你确定吗"
+
+#: admin.py:96
+msgid "create new user and userprofile"
+msgstr "创建新用户及其采购配置"
+
+#: admin.py:111
+msgid "reset password for selected users"
+msgstr "重置选定用户的密码"
+
+#: admin.py:126
+msgid "confirm phase 1 sha256 purchase for selected users"
+msgstr "确认选定用户比特矿机一期采购正确"
+
+#: admin.py:141
+msgid "confirm phase 2 sha256 purchase for selected users"
+msgstr "确认选定用户比特矿机二期采购正确"
+
+#: admin.py:156
+msgid "confirm phase 1 scrypt purchase for selected users"
+msgstr "确认选定用户莱特矿机一期已付款"
+#: models.py:21
+msgid "qq_display_name"
+msgstr "QQ昵称"
+
+#: models.py:22
+msgid "full_name"
+msgstr "姓名"
+
+#: models.py:23
+msgid "subscription"
+msgstr "周报订阅"
+
+#: models.py:24
+msgid "coinfund"
+msgstr "比特币基金(万元)意向"
+
+#: models.py:25
+msgid "hitechfund"
+msgstr "高科技基金(万元)意向"
+
+#: models.py:26
+msgid "wellcoin"
+msgstr "井通认购(万元)意向"
+
+#: models.py:27
+msgid "sha_first_purchase"
+msgstr "比特币一期认购(台)"
+
+#: models.py:28
+msgid "confirm_bitcoin_first_purchase"
+msgstr "用户确认比特一期正确"
+
+#: models.py:29
+msgid "sha_second_purchase"
+msgstr "比特币二期认购(台)"
+
+#: models.py:30
+msgid "confirm_bitcoin_second_purchase"
+msgstr "用户确认比特二期正确"
+
+#: models.py:31
+msgid "sha_third_purchase"
+msgstr "比特币三期认购(台)"
+
+#: models.py:32
+msgid "scrypt_first_purchase"
+msgstr "莱特币一期认购(台)意向"
+
+#: models.py:33
+msgid "scrypt_first_confirmed"
+msgstr "莱特币一期已付款"
+
+#: models.py:35
+msgid "bitcoin wallet"
+msgstr "比特币钱包"
+
+#: models.py:36
+msgid "litecoin wallet"
+msgstr "莱特币钱包"
+
+#: models.py:37
+msgid "confirmed"
+msgstr "已确认"
+
+#: models.py:38
+msgid "agree|disagree"
+msgstr "赞成|反对"
+
+#: models.py:39
+msgid "note"
+msgstr "注释"
+
+#: models.py:40
+msgid "change note"
+msgstr "更新原因"
+
+#: models.py:43
+msgid "userprofile"
+msgstr "用户配置"
+
+#: models.py:44
+msgid "userprofiles"
+msgstr "用户配置"

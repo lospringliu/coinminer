@@ -1,0 +1,35 @@
+False
+>>> u.
+u.DoesNotExist(                    u._get_next_or_previous_in_order(  u.get_username(
+u.Meta                             u._get_pk_val(                     u.groups
+u.MultipleObjectsReturned(         u._get_unique_checks(              u.has_module_perms(
+u.REQUIRED_FIELDS                  u._meta                            u.has_perm(
+u.USERNAME_FIELD                   u._perform_date_checks(            u.has_perms(
+u.__class__(                       u._perform_unique_checks(          u.has_usable_password(
+u.__delattr__(                     u._save_parents(                   u.id
+u.__dict__                         u._save_table(                     u.is_active
+u.__doc__                          u._set_pk_val(                     u.is_anonymous(
+u.__eq__(                          u._state                           u.is_authenticated(
+u.__format__(                      u._userprofile_cache               u.is_staff
+u.__getattribute__(                u.check_password(                  u.is_superuser
+u.__hash__(                        u.clean(                           u.last_login
+u.__init__(                        u.clean_fields(                    u.last_name
+u.__module__                       u.country_set                      u.location_set
+u.__ne__(                          u.date_error_message(              u.logentry_set
+u.__new__(                         u.date_joined                      u.natural_key(
+u.__reduce__(                      u.delete(                          u.password
+u.__reduce_ex__(                   u.email                            u.pk
+u.__repr__(                        u.email_user(                      u.prepare_database_save(
+u.__setattr__(                     u.first_name                       u.province_set
+u.__sizeof__(                      u.full_clean(                      u.save(
+u.__str__(                         u.get_absolute_url(                u.save_base(
+u.__subclasshook__(                u.get_all_permissions(             u.serializable_value(
+u.__unicode__(                     u.get_full_name(                   u.set_password(
+u.__weakref__                      u.get_group_permissions(           u.set_unusable_password(
+u._default_manager                 u.get_next_by_date_joined(         u.unique_error_message(
+u._deferred                        u.get_next_by_last_login(          u.user_permissions
+u._do_insert(                      u.get_previous_by_date_joined(     u.username
+u._do_update(                      u.get_previous_by_last_login(      u.userprofile
+u._get_FIELD_display(              u.get_profile(                     u.validate_unique(
+u._get_next_or_previous_by_FIELD(  u.get_short_name(
+>>> u.set_password)

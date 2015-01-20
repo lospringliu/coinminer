@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="/">报告</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/admin/common/">管理</a></h1>
+{% endblock %}
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

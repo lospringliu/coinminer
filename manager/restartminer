@@ -1,0 +1,13 @@
+#!/bin/bash
+
+sudo echo nameserver 114.114.114.114 > /tmp/resolv.conf
+sudo echo nameserver 8.8.8.8 >> /tmp/resolv.conf
+sudo cp /tmp/resolv.conf /etc/
+
+sudo pkill cgminer
+sleep 1
+sudo pkill cgminer
+sleep 2
+cd /home/pi/src/cgminer
+sudo nohup ./run.sh &
+

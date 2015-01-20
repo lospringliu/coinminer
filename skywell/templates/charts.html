@@ -1,0 +1,53 @@
+{% extends "base_site.html" %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/js/jqplot/jquery.jqplot.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/jquery-ui/jquery-ui.min.css" />
+{% endblock %}  
+
+{% block extrahead %}
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/static/admin/js/jqplot/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="/static/admin/js/jqplot/jquery.min.js"></script>
+<script type="text/javascript" src="/static/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/jqplot/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/jqplot/plugins/jqplot.cursor.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/jqplot/plugins/jqplot.donutRenderer.min.js"></script>
+{% endblock %}
+
+{% block title %}运行图表{% endblock %}
+{% block content %}
+	{% if user and user.is_active and user.userprofile.user_in_miner_group %}
+	<div class="module">
+		<h1>可以查看的项目  -- 涉及时间为UTC时间</h1>
+		<h3><a href="/django/charts/?model=MinerFactory">矿场</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/django/charts/?model=MinerWorker">矿机</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/django/charts/?model=JintianWorker">自主统计矿机</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/django/charts/?model=BitStamp">BitStamp</a></h3>
+	</div>
+	{% if model %}
+	<div class="module">
+		<h1>关于{{ contenttype.name.upper }}的图表</h1>
+		<div id='content'>
+		{% if modelform %}
+			<form action="" method="POST"> {% csrf_token %}
+				<div  class="submit-row">
+					{{ modelform }}
+				<input type="submit" value='display selected' />
+				</div>
+			</form>
+		{% endif %}
+		{% if jqplots %}
+			<table width="100%"><tr><td>
+			{% for jqplotid, jqplotscript in jqplots %}
+			<a href="#{{ jqplotid }}">{{ jqplotid }}&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			{% endfor %}
+			</td></tr>
+			{% for jqplotid, jqplotscript in jqplots %}
+			{{ jqplotscript|safe}}
+			{% endfor %}
+			</table>
+		{% endif %}
+		</div>
+	</div>
+	{% endif %}
+	{% endif %}
+{% endblock %}

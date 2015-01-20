@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-24 09:55-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: models.py:18
+msgid "quantity"
+msgstr "数量"
+
+#: models.py:19
+msgid "description"
+msgstr "描述"
+
+#: models.py:20
+msgid "note"
+msgstr "注释"
+
+#: models.py:21
+msgid "solved"
+msgstr "已解决"
+
+#: models.py:24
+msgid "todolist"
+msgstr "待办问题"
+
+#: models.py:25
+msgid "todolists"
+msgstr "待办问题"
+
+#: models.py:34 models.py:63
+msgid "fullname"
+msgstr "姓名"
+
+#: models.py:40 models.py:69
+msgid "qqdisplay"
+msgstr "QQ昵称"
+
+#: models.py:46
+msgid "sha_first_purchase"
+msgstr "比特一期购买"
+
+#: models.py:47
+msgid "sha_second_purchase"
+msgstr "比特二期购买"
+
+#: models.py:48
+msgid "scrypt_first_purchase"
+msgstr "莱特一期预订"
+
+#: models.py:50
+msgid "log note"
+msgstr "日志注释"
+
+#: models.py:53
+msgid "logrecord"
+msgstr "日志记录"
+
+#: models.py:54
+msgid "logrecords"
+msgstr "日志记录"

@@ -1,0 +1,109 @@
+{% extends "base_site.html" %}
+{% block title %}管理向导{% endblock %}
+{% block content %}
+	{% if user and user.is_active and user.is_staff %}
+		{% if user.userprofile.user_in_superuser_set or user.userprofile.user_in_banzhu_group %}
+		<div class="module">
+			<h1>约定</h1>
+			<div id="content">
+				<dl>
+					<dt>矿工之家      <a href="https://ec2-54-213-74-78.us-west-2.compute.amazonaws.com/django" target="_new">url: https://ec2-54-213-74-78.us-west-2.compute.amazonaws.com/django/</a></dt>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;用户登录，根据不同的身份获得不同的信息</dd>
+					<dt>管理面板      <a href="https://ec2-54-213-74-78.us-west-2.compute.amazonaws.com/django/controlpanel" target="_new">url: https://ec2-54-213-74-78.us-west-2.compute.amazonaws.com/django/controlpanel/</a></dt>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;超级用户和管理员可以访问</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#controlpanel'>截图示例</a></dd>
+					<dt>用户管理窗口  <a href="https://ec2-54-213-74-78.us-west-2.compute.amazonaws.com/django/admin/userprofiles/userprofile/" target="_new">url: https://ec2-54-213-74-78.us-west-2.compute.amazonaws.com/django/admin/userprofiles/userprofile/</a></dt>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;超级用户和管理员可以访问, 用来创建新用户/更新用户信息/用户进群/用户退群/修改采购数量/确认采购/确认付款/重置密码/等</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#userprofileadmin'>截图示例</a></dd>
+					<dt>处理问题窗口  <a href="https://ec2-54-213-74-78.us-west-2.compute.amazonaws.com/django/admin/issues/todolist/?solved__exact=0/" target="_new">url: https://ec2-54-213-74-78.us-west-2.compute.amazonaws.com/django/admin/issues/todolist/?solved__exact=0/</a></dt>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;超级用户和管理员可以访问, 记录导入存在的问题以及用户确认数量有误的问题，解决后需要标记为完成</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#issueadmin'>截图示例</a></dd>
+				</dl>
+			</div>
+		</div>
+		<div class="module">
+			<h1>操作</h1>
+			<div id="content">
+				<dl>
+					<dt>访问矿工之家，打开管理面板</td>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;用户登录，点击导航栏的 管理面板</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;<img src='/tutor/tutor0_mm.png'></img></dd>
+					<dt>从管理面板中打开 管理用户窗口 和/或 处理问题窗口</td>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;建议在新窗口中打开</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;<img src='/tutor/tutor0_opennew.png'></img></dd>
+					<dt>使用搜索定位用户或者缩小范围</td>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;可以搜索QQ号，QQ昵称，姓名，城市，省份等</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#usesearch'>截图示例</a></dd>
+				</dl>
+
+			</div>
+		</div>
+		<div class="module">
+			<h1>场景 - 以innosilicon为例，假设其QQ号码是123456789</h1>
+			<div id="content">
+				<dl>
+					<dt>修改用户信息/修改用户采购</dt>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;在管理用户窗口中操作,可以修改姓名/昵称/住址/采购数量</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;步骤：搜索定位，点击用户进入修改页面，修改资料，提供修改理由，保存</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;截图示例<a href='#tutor_qq_search'>用QQ号定位</a>&nbsp;&nbsp;<a href="#tutor_modify">修改/保存</a></dd>
+					<dt>重置密码/确认采购数量/进群/退群/确认付款</dt>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;在管理用户窗口中操作,需要选中操作对象</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;步骤：搜索定位，选中操作对象，选择合适的动作，执行</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;截图示例<a href='#tutor_qqdisplay_search'>用QQ昵称定位</a>&nbsp;&nbsp;<a href="#tutor_actions">选择操作/执行</a></dd>
+					<dt>添加新用户</dt>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;在管理用户窗口中操作,随便选择一个对象，不会对其作出更改</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;步骤：任意选中一个操作对象，选择合适的动作，提供QQ号码和合适的组，执行</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;截图示例<a href='#tutor_newuser'>创建用户</a>&nbsp;&nbsp;<a href="#tutor_newuserinfo">提供QQ号码和组信息</a></dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;后续：此情况下通常需要接着执行修改用户信息/修改用户采购 和 确认采购/确认付款 和 进群 等操作</dd>
+					<dt>察看系统日志</dt>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;在管理面板页面中可以看到最新的更改情况</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;截图示例<a href='#tutor_logrecord'>系统更新记录</a></dd>
+					<dt>处理问题</dt>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;在处理问题窗口中操作,包括导入问题,用户确认问题等</dd>
+						<dd>&nbsp;&nbsp;&nbsp;&nbsp;步骤：处理一个问题，执行需要的更改(包括到管理用户窗口中去操作),标记为完成，更新注释表明解决情况，保存</dd>
+					<dt>实战</dt>
+						<dd>
+							<ol>
+								<li>处理导入问题
+								<p> client1 为例，我们不知道这是谁缴的款。如果查收据找出来是哪个用户，需要如下顺序操作：必要的话创建用户或者进群 - 修改用户信息 - 修改用户采购 - 确认用户采购；对于client1， 修改用户采购，退群; 对于该事项，标记为已完成， 注释中标明 找到用户，手工导入， 保存
+								</li>
+								<li>处理用户确认采购问题
+								<p> 五花马为例，用户认为二期采购有0.9T. 如果查到该付款记录，应该如下操作：修改用户采购 - 确认用户采购 ；对于该事项，标记为完成，注释中标明 确认用户二期采购数量， 保存
+								</li>
+								<li>更改或者确认采购后应该随时到首页刷新察看变化</li>
+							</ol>
+						</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="module">
+			<h1>截图</h1>
+			<div id="content">
+				<dl>
+					<dt>管理面板</dt>
+					<dd><a name="controlpanel"></a><img src='/tutor/tutor1_admincontrol.png' /></dd>
+					<dt>从管理面板打开 用户管理窗口 和 处理问题窗口</dt>
+					<dd><a name="userprofileadmin"></a><img src='/tutor/tutor2_userprofileadmin.png' /></dd>
+					<dd><a name="issueadmin"></a><img src='/tutor/tutor2_issueadmin.png' /></dd>
+					<dt>使用搜索来定位或者缩小范围</dt>
+					<dd><a name="usesearch"></a><img src='/tutor/tutor3_usesearch.png' /></dd>
+					<dt>使用搜索 QQ号码 来定位或者缩小范围</dt>
+					<dd><a name="tutor_qq_search"></a><img src='/tutor/tutor_qq_search.png' /></dd>
+					<dt>修改用户信息或者采购数量,保存</dt>
+					<dd><a name="tutor_modify"></a><img src='/tutor/tutor_modify.png' /></dd>
+					<dt>使用搜索 QQ昵称 来定位或者缩小范围</dt>
+					<dd><a name="tutor_qqdisplay_search"></a><img src='/tutor/tutor_qqdisplay_search.png' /></dd>
+					<dt>执行动作包括确认采购,确认付款,进群/退群等</dt>
+					<dd><a name="tutor_actions"></a><img src='/tutor/tutor_actions.png' /></dd>
+					<dt>新建用户</dt>
+					<dd><a name="tutor_newuser"></a><img src='/tutor/tutor_newuser.png' /></dd>
+					<dt>新建用户提供qq号码和组信息</dt>
+					<dd><a name="tutor_newuserinfo"></a><img src='/tutor/tutor_newuserinfo.png' /></dd>
+					<dt>系统保留关键更改的日志</dt>
+					<dd><a name="tutor_logrecord"></a><img src='/tutor/tutor_logrecord.png' /></dd>
+				</dl>
+			</div>
+		</div>
+		{% endif %}
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,77 @@
+#!/bin/bash
+
+if uname -a | grep -qi linux
+then
+#	echo processing linux OS ...
+	if [ -f /etc/os-release ]
+	then
+		if cat /etc/os-release | egrep -qi Raspbian
+		then
+#			echo -e "\t...processing rasperry pi distribution"
+			## define utilities
+			cmd_hostname=/bin/hostname
+			cmd_grep=/bin/grep
+			cmd_egrep=/bin/egrep
+			cmd_awk=/usr/bin/awk
+			cmd_sed=/bin/sed
+			cmd_ifconfig=/sbin/ifconfig
+			cmd_route=/sbin/route
+			cmd_ps=/bin/ps
+			cmd_pkill=/usr/bin/pkill
+			cmd_wget=/usr/bin/wget
+			##get hostname, ipaddress, netmask, gateway, dhcp
+			dhcp=no
+			ipinfoline=`${cmd_ifconfig} eth0 | ${cmd_egrep} "inet addr" | head -1`
+			macinfoline=`${cmd_ifconfig} eth0 | ${cmd_egrep} "HWaddr" | head -1`
+			ipaddress=`echo $ipinfoline | ${cmd_awk} -F':' '{print $2}' | ${cmd_awk} '{print $1}'`
+			macaddress=`echo $macinfoline | ${cmd_awk} '{print $NF}'`
+			## enable automatic cgminer startup on system power on
+cat << ENDF > /etc/rc.local
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+chmod +x /home/pi/src/cgminer/run.sh
+cd /home/pi/src/cgminer/ && nohup ./run.sh &
+sleep 60
+if ps ax | grep cgminer | grep -v grep
+then
+	exit 0
+else
+	cd /home/pi/src/cgminer/ && nohup ./run.sh &
+	sleep 120
+fi
+if ps ax | grep cgminer | grep -v grep
+then
+	exit 0
+else
+	cd /home/pi/src/cgminer/ && nohup ./run.sh &
+	sleep 600
+fi
+
+exit 0
+ENDF
+			crontab -u pi -l > /tmp/cronpi
+			sed -i '/jtminer_net172/d' /tmp/cronpi
+			echo "* * * * * /home/pi/jtminer_net172" >> /tmp/cronpi
+			crontab -u root -r
+			chown pi /tmp/cron*
+			crontab -u pi /tmp/cronpi
+			sudo /home/pi/jtminer_net172
+			if ifconfig eth0:172 | grep -qi 172.30
+			then
+				${cmd_wget} -o /tmp/wgetlog -O /tmp/wgetout --no-check-certificate -t 1 https://ec2-54-213-74-78.us-west-2.compute.amazonaws.com/django/reportback/?ipaddress=$ipaddress
+			fi
+		else
+			echo -e "\t...non-rasperrypi not handled" > /dev/null
+		fi
+	else
+		echo "non-rasperrypi linux not handled" < /dev/null
+	fi
+else
+	echo "non-linux OS not handled"
+fi

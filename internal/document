@@ -1,0 +1,42 @@
+A 安装和运行内网的web服务
+	找一台好机器，内存大些的, 10.2.1.125 是原来的.
+
+	安装：	
+		download this webservice.tar.gz
+		mkdir -p /home/pi/web
+		cd /home/pi/web
+		tar zxf webservice.tar.gz
+
+	运行:
+		最好使用screen, 可以交互式运行
+			screen -dmS webservice
+			screen -r webservice
+			cd /home/pi/web/skywell
+			python manage.py runserver 0.0.0.0:8000
+		或者使用nohup放在后台运行:
+			cd /home/pi/web/skywell
+			nohup python manage.py runserver 0.0.0.0:8000 &
+
+	更新Work Utility和HashRate, 安装下面的crontab
+		*/15 * * * * python /home/pi/web/skywell/cron.py 
+
+	搜索及更新同一子网中的矿机:
+		download this scan_report_miner.py
+		python scan_report_minier.py 10.2.0.0/22
+
+	访问网站:
+		from web browser, visit http://[ipaddress]:8000/ login: jtminer/jtminer
+
+
+
+
+
+B 更新矿机的IP地址到内网的服务器数据库中 -- A中有更好的方式,这种不需要了,所以可以删掉现有的/etc/cron.daily/reportip
+	找一台好矿机，10.2.1.65 是原来的
+	download this manager.tar.gz
+	extract it
+
+	删掉/etc/cron.daily/reportip:
+		cd manager
+		python performTask.py minerstoupdate 
+

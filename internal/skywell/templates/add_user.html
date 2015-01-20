@@ -1,0 +1,31 @@
+{% extends "base_site.html" %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+{% endblock %}  
+
+{% block title %}矿工之家{% endblock %}
+{% block content %}
+	<p>你确定要添加这个用户吗？</p>
+	<p>
+	<p>
+	<form action="" method="post">{% csrf_token %}
+	<div id="content">
+	<div class="fieldWrapper">
+		{{ userbtcfirstform.non_field_errors }}
+		{{ userprofilebtcfirstform.non_field_errors }}
+	</div>
+	<table>
+	{{ form.as_table }}
+	{% for obj in queryset %}
+		<input type="hidden" name="{{ action_checkbox_name }}" value="{{ obj.pk }}" />
+	{% endfor %}
+	<input type="hidden" name="action" value="add_newuser" />
+	</table>
+<!--
+	<input type="hidden" name="post" value="yes" />
+-->
+	<tr><td style="text-align:right"><input type="submit" name="post" value="确定" /></td><td style="text-align:right"><input type="submit" name='pre' value="取消" /></td></tr>
+	</div>
+	</form>
+{% endblock %}
+

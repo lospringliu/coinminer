@@ -1,0 +1,75 @@
+{% extends "base_site.html" %}
+{% block title %}A股基金投资补偿登记{% endblock %}
+{% block branding %}
+	<h1>A股基金投资意向</h1>
+{% endblock %}
+{% block content %}
+	{% if not loggedin %}
+		请首先用鼠标点击<br> <a href="/django/accounts/login/?next=/django/afundinvest/"><b style="color:red">&nbsp;&nbsp;登陆矿工之家</b></a> <br>用户名是群中的QQ号，以前没有用过矿工之家的可以试试初始密码 0.0T+0.0T, 你总是可以用你的QQ邮箱<a href="/django/accounts/password_reset/?next=/django/afuncinvest/">重设密码</a>。
+	{% elif not user.userprofile.user_in_astockfund_group %}
+		<b>你没有权限访问该页面</b>
+	{% else %}
+		<div class="module">
+			<h1>用户信息</h1>
+			<div id="content">
+				<table>
+				<tr><td>QQ号码</td> <td> {{ user.username }}</td></tr>
+				<tr><td>QQ昵称</td> <td> {{ user.userprofile.qqdisplay }}</td></tr>
+				<tr><td>姓名</td> <td> {{ user.userprofile.fullname }}</td></tr>
+				<tr><td>曾持有A股基金</td> <td> {{ user.userprofile.astockfund }} 份</td></tr>
+				<tr><td>返还金额</td> <td> {{ user.userprofile.astockvalue }} 份</td></tr>
+				<tr><td style="color:red">井通补偿(调整到十元的倍数)</td> <td> {{ user.userprofile.astockcredit }} 元</td></tr>
+				</table>
+			</div>
+		</div>
+		<div class="module">
+			<div id="content">
+				{% if not show_intention %}
+				<p><b><a href="/django/afundinvest/?show_intention=True">A股基金投资补偿 -- 显示</a></b></p>
+				<div id="content">
+					<b>A股基金已经关掉</b><br><br>
+					<br>
+				</div>
+				{% else %}
+				<p><b><a href="/django/afundinvest/" style="font:bigger">A股基金投资补偿 -- 隐藏</a></b></p>
+					<div id="content">
+					{% if user.is_active %}
+						<form action="" method="POST"> {% csrf_token %}
+						<div>
+							<div class="fieldWrapper">
+								{{ userprofileform.non_field_errors }}
+							</div>
+							<table>
+							<tr><td>重要：</td><td>网络名称和姓名是确认所必须的，请提供.姓名信息只有管理员可见</td></tr>
+							<tr><td style="color:red">重要：</td><td style="color:red">实际转投是指A股基金中你已经打款的资金</td></tr>
+							<tr><td style="color:red">A股基金精通补偿(元):</td><td style="color:red">{{ user.userprofile.astockcredit }}</td></tr>
+							{{ userprofileform.as_table }}
+							</table>
+							<div class="submit-row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <input type="hidden" name="submitltcintention" value="yes" /><input type="submit" value='提交A股基金投资信息' /></div>
+						</div>
+						</form>
+					{% endif %}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="module">
+			<h1>A股投资/返款/补偿统计</h1>
+			<div id="content">
+				<table>
+					<thead><tr><th>编号</th><th>持有A股数量</th><th>返款(元)</th><th>补偿(元)</th></tr></thead>
+					<tr style="font-weight:bold"><td>汇总</td><td>{{ astockfund }}</td><td>{{ astockvalue }}</td><td> {{ astockcredit }} </td></tr>
+					{% for up in user.userprofile.get_queryset_astockfund %}
+					<tr><td>{{ forloop.counter }}</td><td>{{ up.astockfund }}</td><td>{{ up.astockvalue }}</td><td>{{ up.astockcredit }}</td></tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		<div class="module">
+			<h1>站点用途</h1>
+			<div id="content">
+				<p>此页面只开放给A股基金群用户</p>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

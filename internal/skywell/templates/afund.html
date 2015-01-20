@@ -1,0 +1,83 @@
+{% extends "base_site.html" %}
+{% block title %}A股基金到期后投资意向{% endblock %}
+{% block branding %}
+	<h1>A股基金投资意向</h1>
+{% endblock %}
+{% block content %}
+	{% if not loggedin %}
+		请首先用鼠标点击<br> <a href="/django/accounts/login/?next=/django/afundinvest/"><b style="color:red">&nbsp;&nbsp;登陆矿工之家</b></a> <br>用户名是群中的QQ号，以前没有用过矿工之家的可以试试初始密码 0.0T+0.0T, 你总是可以用你的QQ邮箱<a href="/django/accounts/password_reset/?next=/django/afuncinvest/">重设密码</a>。
+	{% elif not user.userprofile.user_in_astockfund_group %}
+		<b>你没有权限访问该页面</b>
+	{% else %}
+		<div class="module">
+			<h1>用户信息</h1>
+			<div id="content">
+				<table>
+				<tr><td>QQ号码</td> <td> {{ user.username }}</td></tr>
+				<tr><td>QQ昵称</td> <td> {{ user.userprofile.qqdisplay }}</td></tr>
+				<tr><td>姓名</td> <td> {{ user.userprofile.fullname }}</td></tr>
+				{% if user.userprofile.astockfund %}
+				<tr><td>现持有A股基金</td> <td> {{ user.userprofile.astockfund }} 份</td></tr>
+				<tr><td>拟转投高科技基金</td> <td> {{ user.userprofile.hitechfund }} 万元</td></tr>
+				<tr><td>拟转投虚拟币基金</td> <td> {{ user.userprofile.coinfund }} 万元</td></tr>
+				<tr><td>拟转投井通</td> <td> {{ user.userprofile.wellcoin }} 万元</td></tr>
+				{% else %}
+				<tr><td colspan=2>你目前没有投资意向.如果期望继续投资井系可以点击下面的链接</td></tr>
+				{% endif %}
+				</table>
+			</div>
+		</div>
+		<div class="module">
+			<div id="content">
+				{% if not show_intention %}
+				<p><b><a href="/django/afundinvest/?show_intention=True">后A股基金投资意向 -- 显示</a></b></p>
+				<div id="content">
+					<b>A股基金到期后会关掉</b><br><br>
+					<b>如果期望继续投资井系,有三个投资方向</b><br>
+					<b>井通 高科技基金 虚拟货币基金</b><br>
+					<b>详情请群内沟通咨询</b><br><br>
+					<b>如果部分投资或者不再继续投资的话，到期后余资办理提现</b><br><br>
+					<b style="color: red">投资有风险，请慎重</b>
+					<br>
+				</div>
+				{% else %}
+				<p><b><a href="/django/afundinvest/" style="font:bigger">后A股基金投资意向 -- 隐藏</a></b></p>
+					<div id="content">
+					{% if user.is_active %}
+						<form action="" method="POST"> {% csrf_token %}
+						<div>
+							<div class="fieldWrapper">
+								{{ userprofileform.non_field_errors }}
+							</div>
+							<table>
+							<tr><td>重要：网络名称和姓名是确认所必须的，请提供.姓名信息只有管理员可见</td></tr>
+							{{ userprofileform.as_table }}
+							</table>
+							<div class="submit-row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <input type="hidden" name="submitltcintention" value="yes" /><input type="submit" value='提交后A股基金投资意向' /></div>
+						</div>
+						</form>
+					{% endif %}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="module">
+			<h1>后A股投资意向统计</h1>
+			<div id="content">
+				<table>
+					<thead><tr><th>编号</th><th>持有A股数量</th><th>拟转投高科技(万元)</th><th>拟转投虚拟币(万元)</th><th>拟转投井通(万元)</th><th>拟转投总计(万元)</th></tr></thead>
+					<tr style="font-weight:bold"><td>汇总</td><td> {{ astockfund }} </td><td>{{ hitechfund }}</td><td>{{ coinfund }}</td><td>{{ wellcoin }}</td><td>{{ wellcoin|add:coinfund|add:hitechfund}}</td></tr>
+					{% for up in user.userprofile.get_queryset_astockfund %}
+					<tr><td>{{ forloop.counter }}</td><td>{{ up.astockfund }}</td><td>{{ up.hitechfund }}</td><td>{{ up.coinfund }}</td><td>{{ up.wellcoin }}</td><td style="font-weight:bold">{{  up.hitechfund|add:up.coinfund|add:up.wellcoin }}</td></tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		<div class="module">
+			<h1>站点用途</h1>
+			<div id="content">
+				<p>此页面只开放给A股基金群用户</p>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

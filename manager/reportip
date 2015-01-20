@@ -1,0 +1,8 @@
+#!/bin/bash
+
+WEBSERVER=10.2.1.125:8000
+macinfoline=`ifconfig eth0 | egrep "HWaddr" | head -1`
+macaddress=`echo $macinfoline | awk '{print $NF}'`
+ipinfoline=`ifconfig eth0 | egrep "inet addr" | head -1`
+ipaddress=`echo $ipinfoline | awk -F':' '{print $2}' | awk '{print $1}'`
+wget -o /dev/null -O /dev/null -t 1 http://${WEBSERVER}/reportback/?ipaddress=$ipaddress\&macaddress=$macaddress

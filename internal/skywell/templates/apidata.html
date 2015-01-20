@@ -1,0 +1,31 @@
+{% extends "base_site.html" %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+{% endblock %}  
+
+{% block extrahead %}
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/static/admin/js/jqplot/excanvas.js"></script><![endif]-->
+{% endblock %}
+
+{% block title %}显示API详细数据{% endblock %}
+{% block content %}
+	<div id="content">
+	<h3>矿工详情
+	{% if miner %}
+	</h3>
+		<div id="content">
+			{{ miner.as_table|safe }}
+		</div>
+	{% else %}
+	{% for miner in queryset %}
+	<a href="#{{ miner.ipaddress }}">{{ miner.name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	{% endfor %}
+	</h3>
+	{% for miner in queryset %}
+		<div id="content">
+			{{ miner.as_table|safe }}
+		</div>
+	</div>
+	{% endfor %}
+	{% endif %}
+{% endblock %}

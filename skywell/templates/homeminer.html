@@ -1,0 +1,157 @@
+{% extends "base_site.html" %}
+{% block title %}矿工之家{% endblock %}
+{% block content %}
+	{% if user and user.is_active and user.is_staff %}
+		<div class="module">
+			<h1>用户信息</h1>
+			<div id="content">
+				<table>
+				<tr><td>QQ号码</td> <td> {{ user.username }}</td><td>QQ昵称</td> <td> {{ user.userprofile.qqdisplay }}</td></tr>
+				{% if user.userprofile.user_in_miner_group %}
+				<tr><td><b style="color:red">矿工标识</b></td> <td> {{ user.userprofile.minerid|stringformat:"03d" }}</td></tr>
+				{% endif %}
+				{% if user.userprofile.user_in_miner_group %}
+				<tr><td>比特币一期(台)</td><td> {{ user.userprofile.sha256_first }}</td><td style="color:red">{% if user.userprofile.lock_sha256_first %}你已经确认正确{% elif user.userprofile.lock_sha256_first == False %}你认为数额不对,请等待处理{% else %}未确认{% endif %}</td></tr>
+				<tr><td>比特币二期(台)</td><td> {{ user.userprofile.sha256_second }}</td><td style="color:red">{% if user.userprofile.lock_sha256_second %}你已经确认正确{% elif user.userprofile.lock_sha256_second == False %}你认为数额不对,请等待处理{% else %}未确认{% endif %}</td></tr>
+				{% endif %}
+				</table>
+			</div>
+			{% if user.userprofile.user_in_miner_group and user.userprofile.need_confirm_btcpurchase  %}
+			<p><b>如果你的数量不正确，提交上来请耐心等候，会给你们确认，可能需要一点时间</b></p>
+			{% if user.userprofile.need_confirm_btcfirst %}
+				<div id='content'>
+				{% if not confirm_btc_first %}
+				<a href="/django/confirm_btc_first/">请确认你的比特币矿机一期结果是否正确</a>
+				{% else %}
+				<a href="/django/">你已确认你的比特币矿机一期结果</a>
+					<h4>确认比特矿机一批</h4>
+					<table>
+						<tr><td>重要：电子邮件/网络名称和姓名是确认所必须的，请提供</td></tr>
+						<tr><td>建议将email更新为你的周报接收地址，方便联系</td></tr>
+						<!--
+						<tr><td>建议提供你的姓名信息，其实现在还没有一个好的对应方式，昵称不理想(不可靠/重复/相似),提供后收款/确认效率将大幅提高</td></tr>
+						-->
+						<form action="" method="POST"> {% csrf_token %}
+						<div>
+							<div class="fieldWrapper">
+								{{ userbtcfirstform.non_field_errors }}
+								{{ userprofilebtcfirstform.non_field_errors }}
+							</div>
+							<table>
+							{{ userbtcfirstform.as_table }}
+							{{ userprofilebtcfirstform.as_table }}
+							</table>
+							<div class="submit-row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <input type="hidden" name="confirmbtcfirst" value="yes" /><input type="submit" value='提交比特币矿机一期确认' /></div>
+						</div>
+						</form>
+					</table>
+				{% endif %}
+				</div>
+			{% else %}
+			<p> 你已经确认比特矿机一期的采购</p>
+			{% endif %}
+			{% if user.userprofile.need_confirm_btcsecond  %}
+				<div id='content'>
+				{% if not confirm_btc_second %}
+				<a href="/django/confirm_btc_second/">请确认你的比特币矿机二期结果是否正确</a>
+				{% else %}
+				<a href="/django/">你已确认你的比特币矿机二期结果</a>
+					<h4>确认比特矿机二批</h4>
+					<table>
+						<tr><td>重要：电子邮件/网络名称和姓名是确认所必须的，请提供</td></tr>
+						<tr><td>建议将email更新为你的周报接收地址，方便联系</td></tr>
+						<!--
+						<tr><td>建议提供你的姓名信息，其实现在还没有一个好的对应方式，昵称不理想(不可靠/重复/相似),提供后收款/确认效率将大幅提高</td></tr>
+						-->
+						<form action="" method="POST"> {% csrf_token %}
+						<div>
+							<div class="fieldWrapper">
+								{{ userbtcsecondform.non_field_errors }}
+								{{ userprofilebtcsecondform.non_field_errors }}
+							</div>
+							<table>
+							{{ userbtcsecondform.as_table }}
+							{{ userprofilebtcsecondform.as_table }}
+							</table>
+							<div class="submit-row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <input type="hidden" name="confirmbtcsecond" value="yes" /><input type="submit" value='提交比特币矿机二期确认' /></div>
+						</div>
+						</form>
+					</table>
+				{% endif %}
+				</div>
+			{% else %}
+			<p> 你已经确认比特矿机二期的采购</p>
+			{% endif %}
+			{% endif %}
+		</div>
+		<div class="module">
+			<h1>系统统计</h1>
+			<div id="content">
+				<table>
+				<tr><td>QQ群中导入用户数量</td><td>{{ user.userprofile.users_imported.count }}</td></tr>
+				<tr><td>井天矿工群用户数量</td><td>{{ user.userprofile.users_minergrp_imported.count }}</td></tr>
+				{% if user.userprofile.user_in_miner_group %}
+				<tr><td>比特币矿机一期算力(台)</td><td>{{ user.userprofile.sum_sha256_first }}</td><td> 其中已确认</td><td>{{ user.userprofile.confirmed_sum_sha256_first }}</td></tr>
+				<tr><td>比特币矿机二期算力(台)</td><td> {{ user.userprofile.sum_sha256_second }} </td><td> 其中已确认</td><td>{{ user.userprofile.confirmed_sum_sha256_second }}</td></tr>
+				{% endif %}
+				</table>
+			</div>
+		</div>
+		<div class="module">
+			<h1>登记活动意向</h1>
+			<div id="content">
+				{% if user.userprofile.user_in_miner_group %}
+				<p><b>三期比特币矿机意向 -- 已结束</b></p>
+			<!--
+				<div id="content">
+					<b>统计: 最终三期意向为 {{ user.userprofile.get_queryset_sha256_third|length }}人参与 共 {{ user.userprofile.get_sum_sha256_third }} 台(T)</b><br>
+				</div>
+					<p><b>用一/二期挖出来的比特币换矿机意向 - 已结束</b></p>
+					<div id="content">
+						<b>统计: 最终比特币换矿机意向为 {{ user.userprofile.get_queryset_btctominer|length }}人参与 共 {{ user.userprofile.get_sum_btctominer }} 台(T)</b>
+					</div>
+				{% endif %}
+				<p>高科技风险基金投资意向</p>
+				<p>莱特币矿机意向</p>
+				<p>井通认购意向</p>
+				<p>高科技基金意向</p>
+				<p>比特币基金</p>
+				<p>比特币矿机二期</p>
+				<p>比特币矿机一期</p>
+			-->
+			</div>
+		</div>
+		{% if user.userprofile.user_in_superuser_set or user.userprofile.user_in_banzhu_group %}
+		<div class="module">
+			<h1><a href="/django/controlpanel/">管理面板 -- 进入查看信息或者执行相关任务</a></h1>
+		</div>
+		{% endif %}
+		{% if user.userprofile.confirmed %}
+		<div class="module">
+			<h1>内部转让 -- 测试</h1>
+			<div id="content">
+			<!--
+				<table>
+					<tr><td><a href="/django/?tranfer=out">我要转让</a></td></tr>
+					<tr><td><a href="/django/?tranfer=out">我要接手</a></td></tr>
+					<tr><td><a href="/django/?transfer=history">内部转让历史记录</a></td></tr>
+				</table>
+			-->
+			</div>
+		</div>
+		{% endif %}
+		<div class="module">
+			<h1>站点用途</h1>
+			<div id="content">
+				<p>目前只开放给个人群/商业群和矿工群用户</p>
+				<p>本站当前主要用来进行井大的各种预认购和对帐事宜以提高效率节省资源浪费为目的</p>
+				<p>此处仅收集最小化的用户信息. QQ号和昵称是从群清单中导入或者自愿更新.</p>
+				<!--
+				<p>姓名会在你第一次采购意向时收集，所有后续意向会自动填充.</p>
+				<p>住址自愿填写,建议上海，广州，深圳和武汉的用户提供</p>
+				-->
+				<p>首次登录后应该立刻设置/更改密码，不要使用你的QQ密码以免被盗</p>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

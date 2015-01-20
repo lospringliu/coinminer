@@ -1,0 +1,21 @@
+{% extends "base_site.html" %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+{% endblock %}  
+
+{% block extrahead %}
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/static/admin/js/jqplot/excanvas.js"></script><![endif]-->
+{% endblock %}
+
+{% block title %}矿工数据{% endblock %}
+{% block content %}
+	<div id="content">
+	{% if miner %}
+	<h3>系统记录的矿工信息 &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'skywell.views.jtminer' %}?minerid={{ miner.id }}">你也可以尝试察看实时数据</a>
+	</h3>
+		<div id="content">
+			{{ miner.show_astable|safe }}
+		</div>
+	{% endif %}
+	</div>
+{% endblock %}

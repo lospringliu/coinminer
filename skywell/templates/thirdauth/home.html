@@ -1,0 +1,33 @@
+{% extends 'thirdauth/base.html' %}
+
+{% block main %}
+ <div>
+ <h1>矿工信息</h1>
+
+ <p>
+   <ul>
+     <li>
+       <a>你好， {{ user.get_full_name|default:user.username }}!</a>
+     </li>
+     <li>
+       <a href="{% url 'qqauth:logout' %}?next={% url 'qqhome' %}">退出登录</a>
+     </li>
+   </ul>
+ </p>
+ </div>
+   {% if form %}
+   <div class="fieldWrapper">
+       {{ form.non_field_errors }}	
+   </div>
+
+	<form method="post" id="update-form">{% csrf_token %}
+<div>
+	<table>
+		{{ form.as_table }}
+	    <tr><td><label>&nbsp;</label><input type="submit" value="更新信息" /> </td></tr>
+	</table>
+</div>
+	</form>
+
+   {% endif %}
+{% endblock %}

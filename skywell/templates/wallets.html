@@ -1,0 +1,12 @@
+{% extends "base_site.html" %}
+{% block title %}矿工之家{% endblock %}
+{% block content %}
+	{% if user and user.is_active and user.is_staff %}
+		<table>
+			<tr><th>钱包</th><th>qq昵称</th></tr>
+		{% for up in qs %}
+			<tr><td>{{ up.swcwallet }}</td><td>{{ up.qqdisplay }}</td></tr>
+		{% endfor %}
+		<table>
+	{% endif %}
+{% endblock %}

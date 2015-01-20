@@ -1,0 +1,23 @@
+{% extends "base_site.html" %}
+{% block extrastyle %}
+{% endblock %}  
+
+{% block extrahead %}
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/static/admin/js/jqplot/excanvas.js"></script><![endif]-->
+{% endblock %}
+
+{% block title %}矿工标识{% endblock %}
+{% block content %}
+	<div id="content">
+	{% if matrix %}
+		<table><tr>
+		{% for key, value in  matrix.items %}
+			{% if forloop.counter0 in changeline %}
+			</tr><tr>
+			{% endif %}
+			<td><b>{{ key|stringformat:"03d" }}</b></td>{% if value %}<td style=background-color:green> 可  选 {% else %}<td style=background-color:red;color:green} 已  用 {% endif %}</td>
+		{% endfor %}
+		</tr></table>
+	{% endif %}
+	</div>
+{% endblock %}
